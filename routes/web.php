@@ -3,6 +3,7 @@
 use App\Models\Comment;
 use App\Models\Post;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 
@@ -34,8 +35,8 @@ Route::get('/createPost', function () {
     return response()->json($post);
 });
 
-Route::get('updatePost/{id}', function ($req, $id) {
-    $caption = $req->query('caption');
+Route::get('/updatePost/{id}', function (Request $request, $id) {
+    $caption = $request->query('caption');
     $post = Post::find($id);
     $post->caption = $caption;
     $post->save();
