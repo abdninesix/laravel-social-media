@@ -10,10 +10,10 @@ class CreateFollowRequest extends FormRequest
     /**
      * Determine if the user is authorized to make this request.
      */
-    public function authorize(): bool
-    {
-        return false;
-    }
+    // public function authorize(): bool
+    // {
+    //     return false;
+    // }
 
     /**
      * Get the validation rules that apply to the request.
@@ -23,7 +23,7 @@ class CreateFollowRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            "followed_user_id" => "required|uuid",
         ];
     }
 }

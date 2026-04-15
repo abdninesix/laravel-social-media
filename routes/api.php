@@ -24,6 +24,7 @@ Route::prefix("/likes")->group(function () {
 });
 
 Route::prefix("/comments")->group(function () {
+    Route::post("/", [CommentController::class, "createComment"]);
     Route::put("/{id}", [CommentController::class, "updateComment"]);
     Route::delete("/{id}", [CommentController::class, "deleteComment"]);
 });

@@ -14,20 +14,20 @@ class FollowService
             ->get();
     }
 
-    public function createFollow(string $userId, string $followedUserId): Follow
+    public function createFollow(string $fromId, string $toId): Follow
     {
         $follow = Follow::create([
-            "user_id" => $userId,
-            "followed_user_id" => $followedUserId,
+            "user_id" => $fromId,
+            "followed_user_id" => $toId,
         ]);
         return $follow;
     }
 
-    public function deleteFollow(string $userId, string $followId): bool
+    public function deleteFollow(string $fromId, string $toId): bool
     {
-        $follow = Follow::find([
-            "id" => $followId,
-            "user_id" => $userId,
+        $follow = Follow::where([
+            "user_id" => $fromId, 
+            "followed_user_id" => $toId,
         ])->first();
 
         if ($follow == null) {
