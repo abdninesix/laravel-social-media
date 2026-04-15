@@ -2,10 +2,63 @@
 
 namespace App\Services;
 
+use App\Models\Post;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+
 class PostService
 {
-    public function createPost(string $caption)
+    public function getPosts()
     {
-        return "This is the post service";
+        return Post::all();
+    }
+
+    public function createPost(string $userId, string $caption): Post
+    {
+
+        // $user = User::create([
+        //     "name" => "Muhammad Abdullah",
+        //     "description" => "Hi! I'm the developer of this website.",
+        //     "email" => "abs2@example.com",
+        //     "password" => Hash::make("password123"),
+        // ]);
+
+        $post = Post::create([
+            "caption" => $caption,
+            "user_id" => $userId,
+        ]);
+
+        return $post;
+    }
+
+    public function updatePost(string $userId, string $id, string $caption): Post|null
+    {
+        $post = Post::find([
+            "id" => $id,
+            "user_id" => $userId,
+        ])->first();
+
+        if ($post == null) {
+            return null;
+        }
+
+        $post->caption = $caption;
+        $post->save();
+        return $post;
+    }
+
+    public function deletePost(string $userId, string $postId): bool
+    {
+        $post = Post::query()
+            ->where("user_id", $userId)
+            ->where("id", $postId)
+            ->first();
+
+        if ($post == null) {
+            return false;
+        }
+
+        $post->delete();
+        return true;
     }
 }

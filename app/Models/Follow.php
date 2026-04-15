@@ -6,15 +6,14 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Post extends Model
+class Follow extends Model
 {
     use HasFactory;
     use HasUuids;
 
     protected $fillable = [
-        'caption',
         'user_id',
-        'image',
+        'followed_user_id',
     ];
 
     public function user()
@@ -22,13 +21,8 @@ class Post extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function comments()
+    public function followedUser()
     {
-        return $this->hasMany(Comment::class);
-    }
-
-    public function likes()
-    {
-        return $this->hasMany(Like::class);
+        return $this->belongsTo(User::class, 'followed_user_id');
     }
 }
