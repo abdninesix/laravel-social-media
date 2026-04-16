@@ -7,6 +7,7 @@ use App\Models\Post;
 use App\Services\PostService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -25,7 +26,7 @@ class PostController extends Controller
         $validatedData = $request->validated();
         $caption = $validatedData['caption'];
         return response()->json(
-            $this->postService->createPost(userId: '019d908e-c672-7106-bc51-7bbe32a776ff', caption: $caption),
+            $this->postService->createPost(userId: Auth::id(), caption: $caption),
             status: 201
         );
     }
@@ -45,12 +46,12 @@ class PostController extends Controller
 
     public function deletePost(string $id)
     {
-       if($this->postService->deletePost(userId: '019d8b7c-bb17-7213-ac7c-bb4e2ce65426', postId: $id)) {
-        return response()->noContent(status: 204);
-         } else {
+        if ($this->postService->deletePost(userId: '019d8b7c-bb17-7213-ac7c-bb4e2ce65426', postId: $id)) {
+            return response()->noContent(status: 204);
+        } else {
             return response()->json([
                 "message" => "Post not found"
             ], 404);
-       }
+        }
     }
 }

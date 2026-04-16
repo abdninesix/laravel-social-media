@@ -14,6 +14,7 @@ Route::get('/', function () {
 Route::prefix("/auth")->group(function () {
     Route::post("/register", [UserController::class, "register"]);
     Route::post("/login", [UserController::class, "login"]);
+    Route::post("/logout", [UserController::class, "logout"]);
 });
 
 Route::prefix("/api")->group(function () {

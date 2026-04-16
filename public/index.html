@@ -20,19 +20,76 @@
                 await fetch("http://127.0.0.1:8000/sanctum/csrf-cookie", {
                     credentials: "include",
                 });
-                fetch("http://http://127.0.0.1:8000/api/posts", {
+                fetch("http://127.0.0.1:8000/api/posts", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
+                        "Accept":"application/json",
                         "X-XSRF-TOKEN": getCookieValue("XSRF-TOKEN"),
                     },
                     credentials: "include",
                     body: JSON.stringify({
-                        caption: "Hello World",
+                        "caption": "Hello World",
                     }),
+                });
+            }
+
+            async function register() {
+                await fetch("http://127.0.0.1:8000/sanctum/csrf-cookie", {
+                    credentials: "include",
+                });
+                fetch("http://127.0.0.1:8000/auth/register", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept":"application/json",
+                        "X-XSRF-TOKEN": getCookieValue("XSRF-TOKEN"),
+                    },
+                    credentials: "include",
+                    body: JSON.stringify({
+                        "email": "someone1s@gmail.com",
+                        "password": "password123",
+                    }),
+                });
+            }
+
+            async function login() {
+                await fetch("http://127.0.0.1:8000/sanctum/csrf-cookie", {
+                    credentials: "include",
+                });
+                fetch("http://127.0.0.1:8000/auth/login", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept":"application/json",
+                        "X-XSRF-TOKEN": getCookieValue("XSRF-TOKEN"),
+                    },
+                    credentials: "include",
+                    body: JSON.stringify({
+                        "email": "someone1s@gmail.com",
+                        "password": "password123",
+                    }),
+                });
+            }
+
+            async function logout() {
+                await fetch("http://127.0.0.1:8000/sanctum/csrf-cookie", {
+                    credentials: "include",
+                });
+                fetch("http://127.0.0.1:8000/auth/logout", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept":"application/json",
+                        "X-XSRF-TOKEN": getCookieValue("XSRF-TOKEN"),
+                    },
+                    credentials: "include",
                 });
             }
         </script>
         <button onclick="create()">Click</button>
+        <button onclick="register()">Register</button>
+        <button onclick="login()">Login</button>
+        <button onclick="logout()">Logout</button>
     </body>
 </html>
