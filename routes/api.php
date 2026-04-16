@@ -11,26 +11,26 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // })->middleware('auth:sanctum');
 
-Route::prefix("/posts")->group(function () {
-    Route::get("/", [PostController::class, "getPosts"]);
-    Route::post("/", [PostController::class, "createPost"]);
-    Route::put("/{id}", [PostController::class, "updatePost"]);
-    Route::delete("/{id}", [PostController::class, "deletePost"]);
-});
+// Route::prefix("/posts")->group(function () {
+//     Route::get("/", [PostController::class, "getPosts"]);
+//     Route::post("/", [PostController::class, "createPost"]);
+//     Route::put("/{id}", [PostController::class, "updatePost"]);
+//     Route::delete("/{id}", [PostController::class, "deletePost"]);
+// });
 
-Route::prefix("/likes")->group(function () {
-    Route::post("/", [LikeController::class, "createLike"]);
-    Route::delete("/{id}", [LikeController::class, "deleteLike"]);
-});
+// Route::prefix("/likes")->group(function () {
+//     Route::post("/", [LikeController::class, "createLike"]);
+//     Route::delete("/{id}", [LikeController::class, "deleteLike"]);
+// });
 
-Route::prefix("/comments")->group(function () {
-    Route::post("/", [CommentController::class, "createComment"]);
-    Route::put("/{id}", [CommentController::class, "updateComment"]);
-    Route::delete("/{id}", [CommentController::class, "deleteComment"]);
-});
+// Route::prefix("/comments")->group(function () {
+//     Route::post("/", [CommentController::class, "createComment"]);
+//     Route::put("/{id}", [CommentController::class, "updateComment"]);
+//     Route::delete("/{id}", [CommentController::class, "deleteComment"]);
+// });
 
-Route::prefix("/follows")->group(function () {
-    Route::get("/", [FollowController::class, "getFollows"]);
-    Route::post("/", [FollowController::class, "createFollow"]);
-    Route::put("/{id}", [FollowController::class, "deleteFollow"]);
-});
+// Route::prefix("/follows")->group(function () {
+//     Route::get("/", [FollowController::class, "getFollows"]);
+//     Route::post("/", [FollowController::class, "createFollow"]);
+//     Route::put("/{id}", [FollowController::class, "deleteFollow"]);
+// });

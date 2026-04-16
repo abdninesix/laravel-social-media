@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Social Media</title>
+    </head>
+
+    <body>
+        <script>
+            function getCookieValue(name) {
+                const regex = new RegExp(`(^|)${name}=([^:]+)`);
+                const match = decodeURIComponent(document.cookie).match(regex);
+                if (match) {
+                    return match[2];
+                }
+            }
+
+            async function create() {
+                await fetch("http://127.0.0.1:8000/sanctum/csrf-cookie", {
+                    credentials: "include",
+                });
+                fetch("http://http://127.0.0.1:8000/api/posts", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-XSRF-TOKEN": getCookieValue("XSRF-TOKEN"),
+                    },
+                    credentials: "include",
+                    body: JSON.stringify({
+                        caption: "Hello World",
+                    }),
+                });
+            }
+        </script>
+        <button onclick="create()">Click</button>
+    </body>
+</html>

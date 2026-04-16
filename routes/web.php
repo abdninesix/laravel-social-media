@@ -1,54 +1,43 @@
 <?php
 
-use App\Models\Comment;
-use App\Models\Post;
-use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\FollowController;
+use App\Http\Controllers\LikeController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-// Route::get('/createUser', function () {
-//     $user = User::create([
-//         'name' => 'M Abdullah',
-//         'email' => 'abs@example.com',
-//         'password' => Hash::make('password123'),
-//     ]);
-//     return response()->json($user);
-// });
+Route::prefix("/auth")->group(function () {
+    Route::post("/register", [UserController::class, "register"]);
+    Route::post("/login", [UserController::class, "login"]);
+});
 
-// Route::get('/posts', function () {
-//     $posts = Post::with(['user', 'comments'])->get();
-//     return response()->json($posts);
-// });
+Route::prefix("/api")->group(function () {
+    Route::prefix("/posts")->group(function () {
+        Route::get("/", [PostController::class, "getPosts"]);
+        Route::post("/", [PostController::class, "createPost"])->middleware("auth:sanctum");
+        Route::put("/{id}", [PostController::class, "updatePost"]);
+        Route::delete("/{id}", [PostController::class, "deletePost"]);
+    });
 
-// Route::get('/createPost', function () {
-//     $post = new Post([
-//         'caption' => 'Hello World',
-//     ]);
-//     $post->user_id = '019d874e-9c9a-7254-8595-344d60882eef';
-//     $post->save();
+    Route::prefix("/likes")->group(function () {
+        Route::post("/", [LikeController::class, "createLike"]);
+        Route::delete("/{id}", [LikeController::class, "deleteLike"]);
+    });
 
-//     return response()->json($post);
-// });
+    Route::prefix("/comments")->group(function () {
+        Route::post("/", [CommentController::class, "createComment"]);
+        Route::put("/{id}", [CommentController::class, "updateComment"]);
+        Route::delete("/{id}", [CommentController::class, "deleteComment"]);
+    });
 
-// Route::get('/updatePost/{id}', function (Request $request, $id) {
-//     $caption = $request->query('caption');
-//     $post = Post::find($id);
-//     $post->caption = $caption;
-
-//     return response()->json($post);
-// });
-
-// Route::get('/createComment', function () {
-//     $comment = Comment::Create([
-//         'post_id' => '019d8751-6091-7200-b05b-0f5f4acb7b3e',
-//         'user_id' => '019d874e-9c9a-7254-8595-344d60882eef',
-//         'content' => 'This is another comment...',
-//     ]);
-
-//     return response()->json($comment);
-// });
+    Route::prefix("/follows")->group(function () {
+        Route::get("/", [FollowController::class, "getFollows"]);
+        Route::post("/", [FollowController::class, "createFollow"]);
+        Route::put("/{id}", [FollowController::class, "deleteFollow"]);
+    });
+});
