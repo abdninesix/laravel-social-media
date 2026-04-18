@@ -17,6 +17,16 @@
             }
 
             async function create() {
+                const postImage = document.getElementById("post_image");
+                if(postImage == null) return;
+                if(postImage.files.length != 1) return;
+                console.log(postImage.files[0]);
+
+                const formData = new FormData();
+                formData.append("caption", "A new post from the formData");
+                formData.append("image", postImage.files[0]);
+
+
                 await fetch("http://127.0.0.1:8000/sanctum/csrf-cookie", {
                     credentials: "include",
                 });
@@ -28,9 +38,7 @@
                         "X-XSRF-TOKEN": getCookieValue("XSRF-TOKEN"),
                     },
                     credentials: "include",
-                    body: JSON.stringify({
-                        "caption": "Hello World",
-                    }),
+                    body: formData,
                 });
             }
 
@@ -87,9 +95,12 @@
                 });
             }
         </script>
+
         <button onclick="create()">Click</button>
+        <input type="file" id="post_image" accept="image/png, image/jpeg"/>
         <button onclick="register()">Register</button>
         <button onclick="login()">Login</button>
+        <a href="http://127.0.0.1:8000/auth/redirect/google">Login with google</a>
         <button onclick="logout()">Logout</button>
     </body>
 </html>
