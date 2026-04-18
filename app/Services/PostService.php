@@ -13,7 +13,7 @@ class PostService
         return Post::all();
     }
 
-    public function createPost(string $userId, string $caption): Post
+    public function createPost(string $userId, string $caption, string $image): Post
     {
 
         // $user = User::create([
@@ -26,6 +26,7 @@ class PostService
         $post = Post::create([
             "caption" => $caption,
             "user_id" => $userId,
+            "image" => $image,
         ]);
 
         return $post;

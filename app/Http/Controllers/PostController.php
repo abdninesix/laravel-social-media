@@ -25,10 +25,15 @@ class PostController extends Controller
     {
         $validatedData = $request->validated();
         $caption = $validatedData['caption'];
-        return response()->json(
-            $this->postService->createPost(userId: Auth::id(), caption: $caption),
-            status: 201
-        );
+        $file = $request->file('image');
+        $image = null;
+        if ($file != null && $file->isValid()) {
+            if ($file->store("uploads", "public")) {
+                $image = $file->hashName();
+            }
+        }
+
+        return $this->postService->createPost(userId: Auth::id(), caption: $caption, image: $image);
     }
 
     public function updatePost(CreatePostRequest $request, string $id): Post|JsonResponse
