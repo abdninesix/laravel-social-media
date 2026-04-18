@@ -6,5 +6,13 @@ use Illuminate\Http\Request;
 
 class GoogleAuthController extends Controller
 {
-    //
+    public function redirect()
+    {
+
+    }
+
+    public function callback()
+    {
+
+    }
 }

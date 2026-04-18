@@ -17,7 +17,8 @@ Route::prefix("/auth")->group(function () {
     Route::post("/login", [UserController::class, "login"]);
     Route::post("/logout", [UserController::class, "logout"]);
 
-    Route::get("/callback/google", [GoogleAuthController::class, "something"]);
+    Route::get("/redirect/google", [GoogleAuthController::class, "redirect"]);
+    Route::get("/callback/google", [GoogleAuthController::class, "callback"]);
 });
 
 Route::prefix("/api")->group(function () {
