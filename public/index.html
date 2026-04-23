@@ -8,7 +8,7 @@
 
     <body>
         <script>
-            window.addEventListener("load", renderPosts);
+            // window.addEventListener("load", renderPosts);
 
             function getCookieValue(name) {
                 const regex = new RegExp(`(^|)${name}=([^:]+)`);
@@ -18,25 +18,25 @@
                 }
             }
 
-            async function renderPosts() {
-                await fetch("http://127.0.0.1:8000/sanctum/csrf-cookie", {
-                    credentials: "include",
-                });
+            // async function renderPosts() {
+            //     await fetch("http://127.0.0.1:8000/sanctum/csrf-cookie", {
+            //         credentials: "include",
+            //     });
 
-                let body = await fetch("http://127.0.0.1:8000/api/posts", {
-                    credentials: "include",
-                });
+            //     let body = await fetch("http://127.0.0.1:8000/api/posts", {
+            //         credentials: "include",
+            //     });
 
-                let json = await body.json();
-                console.log(json);
-                for (let post of json) {
-                    document.getElementById("posts").innerHTML += `
-                    <h2>${post.caption}</h2>
-                    <img src="http://127.0.0.1:8000/storage/uploads/${post.image}" style="width: 300px;"/>
-                    <br/>
-                    `;
-                }
-            }
+            //     let json = await body.json();
+            //     console.log(json);
+            //     for (let post of json) {
+            //         document.getElementById("posts").innerHTML += `
+            //         <h2>${post.caption}</h2>
+            //         <img src="http://127.0.0.1:8000/storage/uploads/${post.image}" style="width: 300px;"/>
+            //         <br/>
+            //         `;
+            //     }
+            // }
 
             async function create() {
                 const postImage = document.getElementById("post_image");

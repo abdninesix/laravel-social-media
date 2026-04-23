@@ -21,6 +21,10 @@ Route::prefix("/auth")->group(function () {
     Route::get("/callback/google", [GoogleAuthController::class, "callback"]);
 });
 
+Route::prefix("/users")->group(function () {
+    Route::post("/avatar", [UserController::class, "setAvatar"])->middleware("auth:sanctum");
+});
+
 Route::prefix("/api")->group(function () {
     Route::prefix("/posts")->group(function () {
         Route::get("/", [PostController::class, "getPosts"]);

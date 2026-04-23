@@ -87,6 +87,7 @@ class UserService
             return;
         }
         $user->avatar = $avatar;
+        $user->save();
     }
 
 }
