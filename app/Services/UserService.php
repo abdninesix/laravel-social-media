@@ -73,4 +73,20 @@ class UserService
             ->first();
     }
 
+    public function getUserById(string $id): User|null
+    {
+        return User::query()
+            ->where("id", $id)
+            ->first();
+    }
+
+    public function setUserAvatar(string $user, string $avatar)
+    {
+        $user = $this->getUserById($user);
+        if ($user == null) {
+            return;
+        }
+        $user->avatar = $avatar;
+    }
+
 }

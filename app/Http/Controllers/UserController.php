@@ -26,6 +26,23 @@ class UserController extends Controller
         return response('');
     }
 
+    public function setAvatar(Request $request)
+    {
+        $request->validate([
+            'avatar' => 'required|image|mimes:jpeg/png|max:2048',
+        ]);
+        $image = $request->file("image");
+        if (!$image->isValid()) {
+            return;
+        }
+        if (!$image->store("avatars", "public")) {
+            return;
+        }
+        $hash = $image->hashName();
+        $this->userService->setUserAvatar(user: Auth::id(), avatar: $hash);
+        return response('');
+    }
+
     public function login(Request $request)
     {
         $validatedData = $request->validate([
