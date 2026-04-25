@@ -8,7 +8,7 @@
 
     <body>
         <script>
-            // window.addEventListener("load", renderPosts);
+            window.addEventListener("load", renderPosts);
 
             function getCookieValue(name) {
                 const regex = new RegExp(`(^|)${name}=([^:]+)`);
@@ -18,28 +18,25 @@
                 }
             }
 
-            // async function renderPosts() {
-            //     await fetch("http://127.0.0.1:8000/sanctum/csrf-cookie", {
-            //         credentials: "include",
-            //     });
-
-            //     let body = await fetch("http://127.0.0.1:8000/api/posts", {
-            //         credentials: "include",
-            //     });
-
-            //     let json = await body.json();
-            //     console.log(json);
-            //     for (let post of json) {
-            //         document.getElementById("posts").innerHTML += `
-            //         <h2>${post.caption}</h2>
-            //         <img src="http://127.0.0.1:8000/storage/uploads/${post.image}" style="width: 300px;"/>
-            //         <br/>
-            //         `;
-            //     }
-            // }
+            async function renderPosts() {
+                await fetch("http://127.0.0.1:8000/sanctum/csrf-cookie", {
+                    credentials: "include",
+                });
+                let body = await fetch("http://127.0.0.1:8000/api/posts", {
+                    credentials: "include",
+                });
+                let json = await body.json();
+                for (let post of json) {
+                    document.getElementById("posts").innerHTML += `
+                    <h2>${post.caption}</h2>
+                ${post.image ? `<img src="http://127.0.0.1:8000/storage/uploads/${post.image}" style="width: 300px; border: 1px solid #ccc;"/>` : `<div>No Image</div>` }
+                    <br/>
+                    `;
+                }
+            }
 
             async function create() {
-                const postImage = document.getElementById("post_image");
+                const postImage = document.getElementById("any_image");
                 if (postImage == null) return;
                 if (postImage.files.length != 1) return;
                 console.log(postImage.files[0]);
@@ -81,6 +78,25 @@
                 });
             }
 
+            async function setAvatar() {
+                const image = document.getElementById("any_image");
+                if (image == null) return;
+                const formData = new FormData();
+                formData.append("avatar", image.files[0]);
+                await fetch("http://127.0.0.1:8000/sanctum/csrf-cookie", {
+                    credentials: "include",
+                });
+                fetch("http://127.0.0.1:8000/api/users/avatar", {
+                    method: "POST",
+                    headers: {
+                        Accept: "application/json",
+                        "X-XSRF-TOKEN": getCookieValue("XSRF-TOKEN"),
+                    },
+                    credentials: "include",
+                    body: formData,
+                });
+            }
+
             async function login() {
                 await fetch("http://127.0.0.1:8000/sanctum/csrf-cookie", {
                     credentials: "include",
@@ -117,12 +133,14 @@
         </script>
 
         <button onclick="create()">Post</button>
-        <input type="file" id="post_image" accept="image/png, image/jpeg" />
+        <input type="file" id="any_image" accept="image/png, image/jpeg" />
         <button onclick="register()">Register</button>
+        <button onclick="setAvatar()">Set Avatar</button>
         <button onclick="login()">Login</button>
         <a href="http://127.0.0.1:8000/auth/redirect/google">
             Login with google
         </a>
         <button onclick="logout()">Logout</button>
+        <div id="posts"></div>
     </body>
 </html>

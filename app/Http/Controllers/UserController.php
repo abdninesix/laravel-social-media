@@ -29,9 +29,9 @@ class UserController extends Controller
     public function setAvatar(Request $request)
     {
         $request->validate([
-            'avatar' => 'required|image|mimes:jpeg/png|max:2048',
+            'avatar' => 'required|image|mimes:jpeg,png|max:2048',
         ]);
-        $image = $request->file("image");
+        $image = $request->file("avatar");
         if (!$image->isValid()) {
             return;
         }
