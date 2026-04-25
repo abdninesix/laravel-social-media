@@ -26,13 +26,16 @@
                     credentials: "include",
                 });
                 let json = await body.json();
-                for (let post of json) {
+                for (let post of json.data) {
                     document.getElementById("posts").innerHTML += `
-                    <h2>${post.caption}</h2>
-                ${post.image ? `<img src="http://127.0.0.1:8000/storage/uploads/${post.image}" style="width: 300px; border: 1px solid #ccc;"/>` : `<div>No Image</div>` }
-                    <br/>
-                    `;
+                        <h2>${post.caption}</h2>
+                    ${post.image ? `<img src="http://127.0.0.1:8000/storage/uploads/${post.image}" style="width: 300px; border: 1px solid #ccc;"/>` : `<div>No Image</div>`}
+                        <br/>
+                        `;
                 }
+                let pagination = document.getElementById("pagination");
+                pagination.innerHTML = "";
+                pagination.appendChild(pageButton(1));
             }
 
             async function create() {
@@ -130,6 +133,15 @@
                     credentials: "include",
                 });
             }
+
+            function pageButton(page) {
+                let btn = document.createElement("button");
+                btn.innerText = page.toString();
+                btn.addEventListener("click", () => {
+                    alert(page);
+                });
+                return btn;
+            }
         </script>
 
         <button onclick="create()">Post</button>
@@ -141,6 +153,7 @@
             Login with google
         </a>
         <button onclick="logout()">Logout</button>
+        <div id="pagination"></div>
         <div id="posts"></div>
     </body>
 </html>
