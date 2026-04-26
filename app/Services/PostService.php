@@ -15,7 +15,6 @@ class PostService
 
     public function createPost(string $userId, string $caption, string $image): Post
     {
-
         // $user = User::create([
         //     "name" => "Muhammad Abdullah",
         //     "description" => "Hi! I'm the developer of this website.",
