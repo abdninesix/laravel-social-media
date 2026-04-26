@@ -9,6 +9,22 @@
     <body>
         <script>
             window.addEventListener("load", () => renderPosts(1));
+            let currentPage = 1;
+            let lastPage = 0;
+            let fetching = false;
+            document.addEventListener("scroll", async () => {
+                if (fetching) return;
+                if (currentPage == lastPage) return;
+                let currentScroll = window.scrollY;
+                let maxScrollHeight =
+                    document.documentElement.scrollHeight - window.innerHeight;
+                if (currentScroll / maxScrollHeight > 0.7) {
+                    fetching = true;
+                    currentPage++;
+                    await renderPosts(currentPage);
+                    fetching = false;
+                }
+            });
 
             function getCookieValue(name) {
                 const regex = new RegExp(`(^|)${name}=([^:]+)`);
@@ -30,7 +46,9 @@
                 );
                 let data = await body.json();
                 console.log(data);
-                document.getElementById("posts").innerHTML = "";
+
+                // document.getElementById("posts").innerHTML = "";
+                
                 for (let post of data.data) {
                     document.getElementById("posts").innerHTML += `
                         <h2>${post.caption}</h2>
@@ -38,18 +56,20 @@
                         <br/>
                         `;
                 }
-                let currentPage = data.current_page;
-                let pagination = document.getElementById("pagination");
-                pagination.innerHTML = "";
-                if (currentPage > 2) {
-                    pagination.appendChild(pageButton(1));
-                }
-                if (currentPage != 1) {
-                    pagination.appendChild(pageButton(currentPage - 1));
-                }
-                for (let i = currentPage; i < data.last_page + 1; i++) {
-                    pagination.appendChild(pageButton(i));
-                }
+                currentPage = data.current_page;
+                lastPage = data.last_page;
+
+                // let pagination = document.getElementById("pagination");
+                // pagination.innerHTML = "";
+                // if (currentPage > 2) {
+                //     pagination.appendChild(pageButton(1));
+                // }
+                // if (currentPage != 1) {
+                //     pagination.appendChild(pageButton(currentPage - 1));
+                // }
+                // for (let i = currentPage; i < data.last_page + 1; i++) {
+                //     pagination.appendChild(pageButton(i));
+                // }
             }
 
             async function create() {
