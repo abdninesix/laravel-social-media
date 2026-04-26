@@ -8,7 +8,7 @@
 
     <body>
         <script>
-            window.addEventListener("load", renderPosts);
+            window.addEventListener("load", () => renderPosts(1));
 
             function getCookieValue(name) {
                 const regex = new RegExp(`(^|)${name}=([^:]+)`);
@@ -18,24 +18,38 @@
                 }
             }
 
-            async function renderPosts() {
+            async function renderPosts(page) {
                 await fetch("http://127.0.0.1:8000/sanctum/csrf-cookie", {
                     credentials: "include",
                 });
-                let body = await fetch("http://127.0.0.1:8000/api/posts", {
-                    credentials: "include",
-                });
-                let json = await body.json();
-                for (let post of json.data) {
+                let body = await fetch(
+                    `http://127.0.0.1:8000/api/posts?page=${page}`,
+                    {
+                        credentials: "include",
+                    },
+                );
+                let data = await body.json();
+                console.log(data);
+                document.getElementById("posts").innerHTML = "";
+                for (let post of data.data) {
                     document.getElementById("posts").innerHTML += `
                         <h2>${post.caption}</h2>
                     ${post.image ? `<img src="http://127.0.0.1:8000/storage/uploads/${post.image}" style="width: 300px; border: 1px solid #ccc;"/>` : `<div>No Image</div>`}
                         <br/>
                         `;
                 }
+                let currentPage = data.current_page;
                 let pagination = document.getElementById("pagination");
                 pagination.innerHTML = "";
-                pagination.appendChild(pageButton(1));
+                if (currentPage > 2) {
+                    pagination.appendChild(pageButton(1));
+                }
+                if (currentPage != 1) {
+                    pagination.appendChild(pageButton(currentPage - 1));
+                }
+                for (let i = currentPage; i < data.last_page + 1; i++) {
+                    pagination.appendChild(pageButton(i));
+                }
             }
 
             async function create() {
@@ -138,7 +152,7 @@
                 let btn = document.createElement("button");
                 btn.innerText = page.toString();
                 btn.addEventListener("click", () => {
-                    alert(page);
+                    renderPosts(page);
                 });
                 return btn;
             }
