@@ -44,13 +44,13 @@ class UserService
         }
 
         if ($user == null) {
-            $user = $this->registerThirdParty($provider, $email, $avatar);
+            $user = $this->registerThirdParty($provider, $email);
         }
         Auth::login($user);
         return true;
     }
 
-    public function registerThirdParty(string $provider, string $email, string $avatar)
+    public function registerThirdParty(string $provider, string $email)
     {
         return User::create([
             'email' => $email,

@@ -15,13 +15,6 @@ class PostService
 
     public function createPost(string $userId, string $caption, string $image): Post
     {
-        // $user = User::create([
-        //     "name" => "Muhammad Abdullah",
-        //     "description" => "Hi! I'm the developer of this website.",
-        //     "email" => "abs2@example.com",
-        //     "password" => Hash::make("password123"),
-        // ]);
-
         $post = Post::create([
             "caption" => $caption,
             "user_id" => $userId,
