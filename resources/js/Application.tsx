@@ -1,11 +1,14 @@
 import React from 'react'
 import Posts from './Posts'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 const Application = () => {
   return (
-    <>
-      <Posts />
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Posts/>} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 
