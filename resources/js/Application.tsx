@@ -1,5 +1,5 @@
 import React from 'react'
-import Posts from './Posts'
+import Posts from './pages/Posts'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 const Application = () => {
