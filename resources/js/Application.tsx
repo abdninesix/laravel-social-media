@@ -1,8 +1,11 @@
 import React from 'react'
+import Posts from './Posts'
 
 const Application = () => {
   return (
-    <div>Application</div>
+    <>
+      <Posts />
+    </>
   )
 }
 
