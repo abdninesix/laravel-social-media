@@ -12,6 +12,15 @@ class UserController extends Controller
     {
     }
 
+    public function getUserDetails()
+    {
+        $user = Auth::user();
+        if ($user == null) {
+            return response('', status: 401);
+        }
+        return response()->json(['email' => $user->email]);
+    }
+
     public function register(Request $request)
     {
         $validatedData = $request->validate([

@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::prefix("/auth")->group(function () {
     Route::post("/register", [UserController::class, "register"]);
     Route::post("/login", [UserController::class, "login"]);
+    Route::get("/user", [UserController::class, "getUserDetails"]);
     Route::post("/logout", [UserController::class, "logout"]);
 
     Route::get("/redirect/google", [GoogleAuthController::class, "redirect"]);
