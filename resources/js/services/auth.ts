@@ -22,11 +22,11 @@ export const AuthAPI = {
     },
 
     // Logout
-    // logout: async () => {
-    //     return axiosClient.post("/auth/logout");
-    // },
+    logout: async () => {
+        return axiosClient.post("/auth/logout");
+    },
 
-    // Get current user (you need to create this endpoint in Laravel)
+    // Get current user
     me: async () => {
         return axiosClient.get("/auth/user");
     },

@@ -6,7 +6,7 @@ const Login = () => {
   const { login } = useAuth();
 
   const handleLogin = async () => {
-    await login("someone@gmail.com", "password123");
+    await login("someone1s@gmail.com", "password123");
   };
 
   return (

@@ -18,7 +18,13 @@ class UserController extends Controller
         if ($user == null) {
             return response('', status: 401);
         }
-        return response()->json(['email' => $user->email]);
+        return response()->json([
+            'id' => $user->id,
+            'email' => $user->email,
+            'name' => $user->name,
+            'description' => $user->description,
+            'image' => $user->avatar
+            ]);
     }
 
     public function register(Request $request)
