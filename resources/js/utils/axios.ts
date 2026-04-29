@@ -8,6 +8,8 @@ const axiosClient = axios.create({
     },
 });
 
+axiosClient.defaults.withXSRFToken = true;
+
 export async function csrf() {
     await axiosClient.get("/sanctum/csrf-cookie");
 }

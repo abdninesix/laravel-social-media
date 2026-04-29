@@ -1,8 +1,16 @@
 import React from 'react'
+import { useAuth } from '../context/AuthContext';
 
 const Login = () => {
+
+  const { login } = useAuth();
+
+  const handleLogin = async () => {
+    await login("someone@gmail.com", "password123");
+  };
+
   return (
-    <div>Login</div>
+    <div><button onClick={handleLogin}>Login</button></div>
   )
 }
 

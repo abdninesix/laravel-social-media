@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { PostsAPI } from '../services/posts';
 
 interface Post {
     id: string;
@@ -15,18 +16,13 @@ const Posts = () => {
     }, []);
 
     async function loadPosts() {
-        await fetch("http://127.0.0.1:8000/sanctum/csrf-cookie", {
-            credentials: "include",
-        });
-        let body = await fetch(
-            `http://127.0.0.1:8000/api/posts`,
-            {
-                credentials: "include",
-            },
-        );
-        let json = await body.json();
-        setPosts(json.data)
-        console.log(json)
+        try {
+            const res = await PostsAPI.getPosts();
+            setPosts(res.data.data);
+            console.log(res.data);
+        } catch (error: any) {
+            console.error(error.response?.data || error.message);
+        }
     }
 
     return (
