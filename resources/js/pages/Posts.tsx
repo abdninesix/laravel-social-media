@@ -10,7 +10,7 @@ interface Post {
 
 const Posts = () => {
 
-    const { user, logout } = useAuth();
+    const { user } = useAuth();
     console.log(user)
 
     const [posts, setPosts] = useState<Post[]>([]);
@@ -29,10 +29,6 @@ const Posts = () => {
         }
     }
 
-    const handleLogout = async () => {
-        await logout();
-    };
-
     return (
         <div>
             {posts.map((post) => (
@@ -41,7 +37,6 @@ const Posts = () => {
                     {post.image && <img src={`http://localhost:8000/storage/uploads/${post.image}`} alt={post.caption} />}
                 </div>
             ))}
-            <button onClick={handleLogout}>Logout</button>
         </div>
     )
 }

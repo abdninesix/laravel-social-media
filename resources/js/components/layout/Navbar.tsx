@@ -6,12 +6,15 @@ import Avatar from '../base/Avatar';
 
 const Navbar = () => {
 
-  const { user, loading } = useAuth();
+  const { user, loading, logout } = useAuth();
 
   const navigate = useNavigate();
 
   const base_url = import.meta.env.VITE_APP_URL
-  console.log(base_url)
+
+  const handleLogout = async () => {
+    await logout();
+  };
 
   return (
     <div className="bg-white py-4 px-2 md:px-0">
@@ -24,12 +27,16 @@ const Navbar = () => {
           <Link to="/following">Following</Link>
         </div>
         <div>
-          {(loading == false) && (user ?
-            (<Link to={`/profile/${user.id}`}>
-              <Avatar
-                image={`${base_url}/storage/avatars/${user.image}`}
-                customClass="w-10 h-10" />
-            </Link>) : <Button onClick={() => navigate("/login")} >Log in</Button>
+          {(loading == false) && (user ? (
+            <div className='flex gap-2'>
+              <Link to={`/profile/${user.id}`}>
+                <Avatar
+                  image={`${base_url}/storage/avatars/${user.image}`}
+                  customClass="w-10 h-10" />
+              </Link>
+              <Button onClick={handleLogout}>Logout</Button>
+            </div>
+          ) : <Button onClick={() => navigate("/login")} >Log in</Button>
           )}
         </div>
       </div>

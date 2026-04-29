@@ -22,7 +22,7 @@ function Button({ children, color = "blue", size = "normal", bold = true, classN
     onClick: () => void
 }) {
     return (
-        <button onClick={onClick} className={`${COLORS[color]} ${SIZES[size]} ${bold ? 'font-bold' : ''} rounded-md flex gap-2 justify-center items-center ${className}`}>{children}</button>
+        <button onClick={onClick} className={`${COLORS[color]} ${SIZES[size]} ${bold ? 'font-bold' : ''} rounded-md cursor-pointer flex gap-2 justify-center items-center ${className}`}>{children}</button>
     );
 }
 
