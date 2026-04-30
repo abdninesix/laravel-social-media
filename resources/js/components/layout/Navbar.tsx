@@ -1,3 +1,4 @@
+
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
@@ -21,7 +22,7 @@ const Navbar = () => {
       <div className="main-center flex items-center justify-between">
         <div className="flex items-center gap-4">
           <h2 className="text-xl font-bold text-blue-500">
-            <Link to="/">VibeShare</Link>
+            <Link to="/">LaravelTalk</Link>
           </h2>
           <Link to="/">Feed</Link>
           <Link to="/following">Following</Link>
