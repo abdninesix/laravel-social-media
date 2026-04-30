@@ -10,10 +10,26 @@ class PostService
 {
     public function getPosts()
     {
-        return Post::paginate(5);
+        $posts = Post::with('user')->latest()->paginate(5);
+
+        $posts->getCollection()->transform(function ($post) {
+            return [
+                'post' => $post,
+                // 'likes' => $post->likes()->count(),
+                // 'comments' => $post->comments()->count(),
+                // 'liked' => null,
+                'author' => [
+                    'id' => $post->user->id,
+                    'name' => $post->user->name,
+                    'avatar' => $post->user->avatar,
+                ],
+            ];
+        });
+
+        return $posts;
     }
 
-    public function createPost(string $userId, string $caption, string $image): Post
+    public function createPost(string $userId, string $caption, ?string $image = null): Post
     {
         $post = Post::create([
             "caption" => $caption,
@@ -51,7 +67,7 @@ class PostService
             return false;
         }
 
-        $post->delete();
+        $post->delete($userId);
         return true;
     }
 }

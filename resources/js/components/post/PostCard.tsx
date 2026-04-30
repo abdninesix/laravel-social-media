@@ -1,31 +1,28 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import Avatar from '../base/Avatar'
 import { useAuth } from '../../context/AuthContext';
-import { PostsAPI } from '../../services/posts';
-import { Post } from './PostList';
+import { PostResponse } from '../../types/post';
+import { Link } from 'react-router-dom';
 
 
-const PostCard = ({ post }: { post: Post }) => {
-
-
-    const { user } = useAuth();
+const PostCard = ({ post }: { post: PostResponse }) => {
 
     const base_url = import.meta.env.VITE_APP_URL
 
     return (
         <div className="bg-white p-2 border rounded-md">
             <div className="flex items-center gap-4">
-                <Avatar image={`${base_url}/storage/avatars/${user?.image}`} />
-                {/* <div>
+                <Avatar image={`${base_url}/storage/avatars/${post.author.avatar}`} />
+                <div>
                     <p className="text-xl">{post.author.name}</p>
                     <Link className="text-sm text-blue-700" to={`/profile/${post.author.username}`}>@{post.author.username}</Link>
-                </div> */}
+                </div>
             </div>
-            {post.image &&
-                <img className="h-52 object-cover w-full mt-2" src={`${base_url}/storage/uploads/${post.image}`}></img>
+            {post.post.image &&
+                <img className="mx-auto mt-2" src={`${base_url}/storage/uploads/${post.post.image}`}/>
             }
 
-            <p className="mt-2">{post.caption}</p>
+            <p className="mt-2">{post.post.caption}</p>
 
             {/* {user && (
                 < div className="flex gap-2 items-center mt-4">
