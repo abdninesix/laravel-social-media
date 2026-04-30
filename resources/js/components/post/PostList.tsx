@@ -48,12 +48,10 @@ const PostList = ({ canPost }: { canPost: boolean }) => {
             lastPage = res.data.last_page;
 
             setPosts((p) => [...p, ...res.data.data]);
-            console.log(res.data.data);
         } catch (error: any) {
             console.error(error.response?.data || error.message);
         }
     }
-    console.log(posts)
 
     return (
         <div>

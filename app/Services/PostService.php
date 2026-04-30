@@ -21,6 +21,7 @@ class PostService
                 'author' => [
                     'id' => $post->user->id,
                     'name' => $post->user->name,
+                    'email' => $post->user->email,
                     'avatar' => $post->user->avatar,
                 ],
             ];

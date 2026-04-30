@@ -15,14 +15,14 @@ const PostCard = ({ post }: { post: PostResponse }) => {
                 <Avatar image={`${base_url}/storage/avatars/${post.author.avatar}`} />
                 <div>
                     <p className="text-xl">{post.author.name}</p>
-                    <Link className="text-sm text-blue-700" to={`/profile/${post.author.username}`}>@{post.author.username}</Link>
+                    <Link className="text-sm text-blue-700" to={`/profile/${post.author.id}`}>@{post.author.email}</Link>
                 </div>
             </div>
+            <p className="mt-2">{post.post.caption}</p>
             {post.post.image &&
-                <img className="mx-auto mt-2" src={`${base_url}/storage/uploads/${post.post.image}`}/>
+                <img className="mx-auto mt-2" src={`${base_url}/storage/uploads/${post.post.image}`} />
             }
 
-            <p className="mt-2">{post.post.caption}</p>
 
             {/* {user && (
                 < div className="flex gap-2 items-center mt-4">

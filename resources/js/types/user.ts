@@ -1,5 +1,6 @@
 export interface UserMeta {
-    username: string;
+    id:string;
+    email: string;
     name: string;
     avatar: string | null;
 }
