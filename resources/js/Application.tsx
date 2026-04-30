@@ -8,16 +8,18 @@ import Profile from './pages/Profile'
 
 const Application = () => {
   return (
-    <AuthProvider>
-      <BrowserRouter>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Posts />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/profile/:id" element={<Profile />} />
-        </Routes>
-      </BrowserRouter>
-    </AuthProvider>
+    <div className='min-h-screen bg-blue-50'>
+      <AuthProvider>
+        <BrowserRouter>
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<Posts />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/profile/:id" element={<Profile />} />
+          </Routes>
+        </BrowserRouter>
+      </AuthProvider>
+    </div>
   )
 }
 

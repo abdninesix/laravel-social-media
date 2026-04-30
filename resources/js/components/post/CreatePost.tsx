@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { PostsAPI } from "../../services/posts";
 import { GoImage } from "react-icons/go";
+import { FiSend } from "react-icons/fi";
 
 const CreatePost = () => {
     const [caption, setCaption] = useState("");
@@ -34,7 +35,7 @@ const CreatePost = () => {
                 value={caption}
                 onChange={(e) => setCaption(e.target.value)}
                 placeholder="What's on your mind?"
-                className="border p-2 w-full"
+                className="bg-white shadow-md p-2 w-full"
                 required
             />
 
@@ -47,14 +48,14 @@ const CreatePost = () => {
                 className="hidden"
             />
 
-            <div className="space-y-2">
+            <div className="flex flex-col gap-4">
                 <label htmlFor="imageUpload" className="text-blue-400 cursor-pointer"> <GoImage size={25} /></label>
                 <button
                     type="submit"
                     disabled={loading}
-                    className="h-fit bg-blue-500 text-white px-4 py-2 cursor-pointer"
+                    className="text-blue-400 cursor-pointer"
                 >
-                    {loading ? "Posting..." : "Post"}
+                    <FiSend size={25} />
                 </button>
             </div>
 

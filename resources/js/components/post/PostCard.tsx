@@ -10,7 +10,7 @@ const PostCard = ({ post }: { post: PostResponse }) => {
     const base_url = import.meta.env.VITE_APP_URL
 
     return (
-        <div className="bg-white p-2 border rounded-md">
+        <div className="bg-white p-4 shadow-md rounded-3xl">
             <div className="flex items-center gap-4">
                 <Avatar image={`${base_url}/storage/avatars/${post.author.avatar}`} />
                 <div>
@@ -20,7 +20,7 @@ const PostCard = ({ post }: { post: PostResponse }) => {
             </div>
             <p className="mt-2">{post.post.caption}</p>
             {post.post.image &&
-                <img className="mx-auto mt-2" src={`${base_url}/storage/uploads/${post.post.image}`} />
+                <img className="mx-auto mt-2 rounded-2xl" src={`${base_url}/storage/uploads/${post.post.image}`} />
             }
 
 

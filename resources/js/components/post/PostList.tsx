@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { PostsAPI } from '../../services/posts';
 import PostCard from './PostCard';
 import { PostResponse } from '../../types/post';
 import CreatePost from './CreatePost';
+import { FaSpinner } from 'react-icons/fa';
 
 const PostList = ({ canPost }: { canPost: boolean }) => {
 
@@ -10,44 +11,44 @@ const PostList = ({ canPost }: { canPost: boolean }) => {
 
     const [posts, setPosts] = useState<PostResponse[]>([]);
 
-    let currentPage = 1;
-    let lastPage = 0;
-    let fetching = false;
+    const currentPage = useRef(1);
+    const lastPage = useRef(0);
+    const fetching = useRef(false);
 
     useEffect(() => {
         loadPosts(1);
-
-        document.addEventListener("wheel", onScroll);
-
+        document.addEventListener("scroll", onScroll);
         return () => {
-            document.removeEventListener("wheel", onScroll);
+            document.removeEventListener("scroll", onScroll);
         }
     }, []);
 
     async function onScroll() {
-        if (fetching) return;
-
-        if (currentPage == lastPage) return;
-
-        let currentScroll = window.scrollY;
-        let maxScrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-
-
-        if (currentScroll / maxScrollHeight > 0.7 || maxScrollHeight == 0) {
-            fetching = true;
-            currentPage++;
-            await loadPosts(currentPage);
-            fetching = false;
+        if (fetching.current) return;
+        if (currentPage.current >= lastPage.current) return;
+        const scrollY = window.scrollY;
+        const maxScroll =
+            document.documentElement.scrollHeight - window.innerHeight;
+        if (scrollY / maxScroll > 0.7) {
+            fetching.current = true;
+            const nextPage = currentPage.current + 1;
+            await loadPosts(nextPage);
+            fetching.current = false;
         }
     }
 
     async function loadPosts(page: number) {
         try {
             const res = await PostsAPI.getPosts(page);
-            currentPage = res.data.current_page;
-            lastPage = res.data.last_page;
-
-            setPosts((p) => [...p, ...res.data.data]);
+            currentPage.current = res.data.current_page;
+            lastPage.current = res.data.last_page;
+            setPosts((prev) => {
+                const existingIds = new Set(prev.map((p) => p.post.id));
+                const newPosts = res.data.data.filter(
+                    (p: PostResponse) => !existingIds.has(p.post.id)
+                );
+                return [...prev, ...newPosts];
+            });
         } catch (error: any) {
             console.error(error.response?.data || error.message);
         }
@@ -55,16 +56,16 @@ const PostList = ({ canPost }: { canPost: boolean }) => {
 
     return (
         <div>
-            {canPost && <div className="mt-4"><CreatePost /></div>}
-
-            <div className="flex flex-col gap-2 mt-2 pb-4">
-                {posts.map((p) => (
-                    <PostCard key={p.post.id}
-                        // onUnlike={() => onPostUnlike(p)}
-                        // onLike={(l) => onPostLike(p, l)}
-                        // onComment={(comments) => onPostComment(p, comments)}
-                        post={p} />
-                ))}
+            {canPost && <div className="mt-10"><CreatePost /></div>}
+            <div className="flex flex-col gap-6 py-10">
+                {posts.length == 0 ? <FaSpinner className='animate-spin mx-auto' /> :
+                    posts.map((p) => (
+                        <PostCard key={p.post.id}
+                            // onUnlike={() => onPostUnlike(p)}
+                            // onLike={(l) => onPostLike(p, l)}
+                            // onComment={(comments) => onPostComment(p, comments)}
+                            post={p} />
+                    ))}
             </div>
         </div>
     )
