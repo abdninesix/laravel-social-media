@@ -3,9 +3,14 @@ import Avatar from '../base/Avatar'
 import { useAuth } from '../../context/AuthContext';
 import { PostResponse } from '../../types/post';
 import { Link } from 'react-router-dom';
+import { GoComment } from 'react-icons/go';
+import { GrLike } from 'react-icons/gr';
+import Button from '../base/Button';
 
 
 const PostCard = ({ post }: { post: PostResponse }) => {
+
+    const { user } = useAuth();
 
     const base_url = import.meta.env.VITE_APP_URL
 
@@ -20,24 +25,24 @@ const PostCard = ({ post }: { post: PostResponse }) => {
             </div>
             <p className="mt-2">{post.post.caption}</p>
             {post.post.image &&
-                <img className="mx-auto mt-2 rounded-2xl" src={`${base_url}/storage/uploads/${post.post.image}`} />
+                <img className="mx-auto h-100 mt-2 rounded-2xl" src={`${base_url}/storage/uploads/${post.post.image}`} />
             }
 
 
-            {/* {user && (
+            {user && (
                 < div className="flex gap-2 items-center mt-4">
-                    <Button onClick={toggleCommentSection} size="small" bold={false} color="white">
-                        <FontAwesomeIcon icon={faComment} className="text-blue-400" />
-                        Comment ({post.comments})
+                    <Button onClick={() => alert("Hi")} size="small" bold={false} >
+                        <GoComment className="text-white" />
+                        Comment (20)
                     </Button>
 
-                    <Button onClick={like} size="small" bold={false} color={post.liked != null ? "blue" : "white"} >
-                        <FontAwesomeIcon icon={faThumbsUp} className={post.liked ? "text-white" : "text-blue-400"} />
-                        Like ({post.likes})
+                    <Button onClick={() => alert("Hi")} size="small" bold={false}  >
+                        <GrLike className="text-white" />
+                        Like (20)
                     </Button>
                 </div>
             )}
-
+            {/* 
             {
                 commentSection ? <CommentSection comments={comments} createComment={createComment} /> : null
             } */}

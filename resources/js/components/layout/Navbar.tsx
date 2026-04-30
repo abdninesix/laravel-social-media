@@ -18,7 +18,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="bg-white py-4 px-2 md:px-0">
+    <div className="bg-white/90 sticky top-0 py-4 px-2 md:px-0 shadow-lg">
       <div className="main-center flex items-center justify-between">
         <div className="flex items-center gap-4">
           <h2 className="text-xl font-bold text-blue-500">

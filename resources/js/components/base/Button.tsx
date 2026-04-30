@@ -10,7 +10,7 @@ const COLORS: Record<ButtonColor, string> = {
 
 const SIZES: Record<ButtonSize, string> = {
     "normal": "px-4 py-2",
-    "small": "px-2"
+    "small": "px-2 py-1"
 }
 
 function Button({ children, color = "blue", size = "normal", bold = true, className = "", onClick }: {
