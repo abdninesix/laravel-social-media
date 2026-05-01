@@ -1,16 +1,33 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { PostsAPI } from "../../services/posts";
 import { GoImage } from "react-icons/go";
 import { FiSend } from "react-icons/fi";
+import Avatar from "../base/Avatar";
+import { useAuth } from "../../context/AuthContext";
 
 const CreatePost = () => {
+
+    const base_url = import.meta.env.VITE_APP_URL
+
+    const { user } = useAuth();
+
     const [caption, setCaption] = useState("");
     const [image, setImage] = useState<File | null>(null);
+    const [preview, setPreview] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        if (!image) {
+            setPreview(null);
+            return;
+        }
+        const objectUrl = URL.createObjectURL(image);
+        setPreview(objectUrl);
+        return () => URL.revokeObjectURL(objectUrl);
+    }, [image]);
 
     const handleSubmit = async (e: React.ChangeEvent) => {
         e.preventDefault();
-
         try {
             setLoading(true);
 
@@ -29,35 +46,53 @@ const CreatePost = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="flex gap-4">
+        <form onSubmit={handleSubmit} className="flex gap-2">
+            <Avatar image={`${base_url}/storage/avatars/${user?.image}`} customClass="w-16 h-16" />
+            <div className="w-full bg-white rounded-xl shadow-md flex gap-2 p-2">
+                <div className="w-full flex flex-col">
+                    <textarea
+                        value={caption}
+                        onChange={(e) => setCaption(e.target.value)}
+                        placeholder="Talk about something..."
+                        className="p-2 w-full outline-none"
+                        required
+                    />
+                    {image && (
+                        <div className="flex items-start gap-1">
+                            <img
+                                src={URL.createObjectURL(image)}
+                                alt="preview"
+                                className="max-h-40 rounded-lg object-cover"
+                            />
+                            <button
+                                type="button"
+                                onClick={() => setImage(null)}
+                                className="cursor-pointer"
+                            >
+                               X
+                            </button>
+                        </div>
+                    )}
+                </div>
 
-            <textarea
-                value={caption}
-                onChange={(e) => setCaption(e.target.value)}
-                placeholder="What's on your mind?"
-                className="bg-white shadow-md p-2 w-full"
-                required
-            />
-
-            <input
-                type="file"
-                onChange={(e) =>
-                    setImage(e.target.files ? e.target.files[0] : null)
-                }
-                id="imageUpload"
-                className="hidden"
-            />
-
-            <div className="flex flex-col gap-4">
+                <input
+                    type="file"
+                    onChange={(e) =>
+                        setImage(e.target.files ? e.target.files[0] : null)
+                    }
+                    id="imageUpload"
+                    className="hidden"
+                />
                 <label htmlFor="imageUpload" className="text-blue-400 cursor-pointer"> <GoImage size={25} /></label>
-                <button
-                    type="submit"
-                    disabled={loading}
-                    className="text-blue-400 cursor-pointer"
-                >
-                    <FiSend size={25} />
-                </button>
             </div>
+
+            <button
+                type="submit"
+                disabled={loading}
+                className="size-fit bg-blue-400 text-white rounded-full p-2 cursor-pointer"
+            >
+                <FiSend size={25} />
+            </button>
 
         </form>
     );

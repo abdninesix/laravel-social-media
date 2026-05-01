@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useAuth } from '../context/AuthContext';
 import Button from '../components/base/Button';
 import { Link, useNavigate } from 'react-router-dom';
+import SignInWithGoogle from '../components/base/GoogleLogin';
 
 const Login = () => {
 
@@ -35,7 +36,7 @@ const Login = () => {
 
   return (
     <div className="main-center">
-      <div className="mt-12 border rounded-md bg-white w-full md:w-120 p-6 mx-auto ">
+      <div className="mt-12 shadow-md rounded-md bg-white w-full md:w-120 p-6 mx-auto ">
         <h2 className="text-2xl font-bold text-center">Log in to VibeShare</h2>
         {/* <p className="text-center">{history.state}</p> */}
         <input value={email} onChange={onEmailChange} className="mt-6" placeholder="Email" type="email"></input>
