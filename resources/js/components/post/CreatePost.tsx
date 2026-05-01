@@ -4,10 +4,9 @@ import { GoImage } from "react-icons/go";
 import { FiSend } from "react-icons/fi";
 import Avatar from "../base/Avatar";
 import { useAuth } from "../../context/AuthContext";
+import { base_url } from "../../utils/axios";
 
 const CreatePost = () => {
-
-    const base_url = import.meta.env.VITE_APP_URL
 
     const { user } = useAuth();
 

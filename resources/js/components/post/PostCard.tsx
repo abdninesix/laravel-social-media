@@ -7,17 +7,16 @@ import { GoComment } from 'react-icons/go';
 import { GrLike } from 'react-icons/gr';
 import Button from '../base/Button';
 import { LikeAPI } from '../../services/like';
+import { base_url } from '../../utils/axios';
 
 
 const PostCard = ({ post }: { post: PostResponse }) => {
 
     const { user } = useAuth();
-    
+
     const [liked, setLiked] = useState<boolean>(post.liked !== null);
     const [likeCount, setLikeCount] = useState<number>(post.likes);
     const [likeId, setLikeId] = useState<string | null>(post.liked);
-
-    const base_url = import.meta.env.VITE_APP_URL
 
     const handleLike = async () => {
         if (!user) return;

@@ -1,17 +1,38 @@
-import React from 'react'
-import { useAuth } from '../context/AuthContext';
+import React, { useEffect, useState } from 'react'
+import { UsersAPI } from '../services/user';
+import { useParams } from 'react-router-dom';
+import { ProfileResponse } from '../types/user';
+import { base_url } from '../utils/axios';
 
 const Profile = () => {
 
-    const { user } = useAuth();
+    const { userId } = useParams();
+
+    const [thisUser, setThisUser] = useState<ProfileResponse>();
+
+    useEffect(() => {
+        if (userId) {
+            loadUser(userId);
+        }
+    }, [userId]);
+
+    async function loadUser(userId: string) {
+        try {
+            const res = await UsersAPI.getUserById(userId);
+            setThisUser(res.data)
+            console.log(thisUser)
+        } catch (error: any) {
+            console.error(error.response?.data || error.message);
+        }
+    }
 
 
     return (
         <div>
-            <h1>{user?.email}</h1>
-            <h1>{user?.name}</h1>
-            <p>{user?.description}</p>
-            <img src="http://localhost:8000/storage/avatars/Pg92R9Zk6FABFlIvPVp0hpY7GUDlsGaVKPBgIOx3.png"/>
+            <h1>{thisUser?.email}</h1>
+            <h1>{thisUser?.name}</h1>
+            <p>{thisUser?.description}</p>
+            <img src={`${base_url}/storage/avatars/${thisUser?.avatar}`} />
         </div>
     )
 }

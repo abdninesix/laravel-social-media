@@ -15,7 +15,7 @@ const Application = () => {
           <Routes>
             <Route path="/" element={<Posts />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/profile/:id" element={<Profile />} />
+            <Route path="/profile/:userId" element={<Profile />} />
           </Routes>
         </BrowserRouter>
       </AuthProvider>

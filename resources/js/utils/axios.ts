@@ -1,7 +1,9 @@
 import axios from "axios";
 
+export const base_url = import.meta.env.APP_URL
+
 const axiosClient = axios.create({
-    baseURL: import.meta.env.APP_URL,
+    baseURL: base_url,
     withCredentials: true,
     headers: {
         Accept: "application/json",

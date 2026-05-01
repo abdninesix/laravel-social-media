@@ -4,14 +4,13 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import Button from '../base/Button';
 import Avatar from '../base/Avatar';
+import { base_url } from '../../utils/axios';
 
 const Navbar = () => {
 
   const { user, loading, logout } = useAuth();
 
   const navigate = useNavigate();
-
-  const base_url = import.meta.env.VITE_APP_URL
 
   const handleLogout = async () => {
     await logout();

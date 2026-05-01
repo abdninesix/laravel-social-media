@@ -7,8 +7,6 @@ import { FaSpinner } from 'react-icons/fa';
 
 const PostList = ({ canPost }: { canPost: boolean }) => {
 
-    const base_url = import.meta.env.VITE_APP_URL
-
     const [posts, setPosts] = useState<PostResponse[]>([]);
 
     const currentPage = useRef(1);

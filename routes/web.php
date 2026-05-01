@@ -48,8 +48,10 @@ Route::prefix("/api")->group(function () {
         Route::put("/{id}", [FollowController::class, "deleteFollow"]);
     });
 
-    Route::prefix("/users")->group(function () {
-        Route::post("/avatar", [UserController::class, "setAvatar"])->middleware("auth:sanctum");
+    Route::get("/users/{id}", [UserController::class, 'getUserById']);
+
+    Route::prefix("/users")->middleware("auth:sanctum")->group(function () {
+        Route::post("/avatar", [UserController::class, "setAvatar"]);
     });
 });
 

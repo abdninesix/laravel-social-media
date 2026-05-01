@@ -7,7 +7,7 @@ export interface UserMeta {
 
 export interface ProfileResponse {
     id: string;
-    username: string;
+    email: string;
     description: string;
     name: string;
     avatar: string | null;

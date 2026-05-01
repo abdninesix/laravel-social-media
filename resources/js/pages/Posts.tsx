@@ -1,13 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { PostsAPI } from '../services/posts';
 import { useAuth } from '../context/AuthContext';
 import PostList from '../components/post/PostList';
-
-interface Post {
-    id: string;
-    caption: string;
-    image: string | null;
-}
 
 const Posts = () => {
 

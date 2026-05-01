@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -10,6 +11,15 @@ class UserController extends Controller
 {
     public function __construct(protected UserService $userService)
     {
+    }
+
+    public function getUserById(string $userId)
+    {
+        $user = User::query()->where('id', $userId)->first();
+        if (!$user) {
+            return response('', 404);
+        }
+        return response()->json($user);
     }
 
     public function getUserDetails()
@@ -24,7 +34,7 @@ class UserController extends Controller
             'name' => $user->name,
             'description' => $user->description,
             'image' => $user->avatar
-            ]);
+        ]);
     }
 
     public function register(Request $request)
