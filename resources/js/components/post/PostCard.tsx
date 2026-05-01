@@ -12,6 +12,7 @@ import { LikeAPI } from '../../services/like';
 const PostCard = ({ post }: { post: PostResponse }) => {
 
     const { user } = useAuth();
+    
     const [liked, setLiked] = useState<boolean>(post.liked !== null);
     const [likeCount, setLikeCount] = useState<number>(post.likes);
     const [likeId, setLikeId] = useState<string | null>(post.liked);

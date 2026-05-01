@@ -83,13 +83,13 @@ const CreatePost = () => {
                     id="imageUpload"
                     className="hidden"
                 />
-                <label htmlFor="imageUpload" className="text-blue-400 cursor-pointer"> <GoImage size={25} /></label>
+                <label htmlFor="imageUpload" className="text-blue-500 cursor-pointer"> <GoImage size={25} /></label>
             </div>
 
             <button
                 type="submit"
                 disabled={loading}
-                className="size-fit bg-blue-400 text-white rounded-full p-2 cursor-pointer"
+                className="size-fit bg-blue-500 text-white rounded-full p-2 cursor-pointer"
             >
                 <FiSend size={25} />
             </button>
