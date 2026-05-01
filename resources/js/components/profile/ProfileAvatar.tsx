@@ -25,7 +25,7 @@ function ProfileAvatar({ avatar, self, onChange }: {
 
     return (<div
         className={
-            "bg-white absolute bottom-5 md:-bottom-20 left-1/2 border-4 border-blue-100 rounded-full container w-32 h-32"
+            "bg-white absolute bottom-5 md:-bottom-20 left-1/8 border-4 border-blue-100 rounded-full container w-32 h-32"
         }
         style={{ transform: "translateX(-50%)" }}
     >

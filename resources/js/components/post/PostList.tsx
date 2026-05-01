@@ -5,7 +5,7 @@ import { PostResponse } from '../../types/post';
 import CreatePost from './CreatePost';
 import { FaSpinner } from 'react-icons/fa';
 
-const PostList = ({ canPost }: { canPost: boolean }) => {
+const PostList = ({ canPost, filter, userId }: { canPost: boolean, filter?: 'followed', userId?: string }) => {
 
     const [posts, setPosts] = useState<PostResponse[]>([]);
 
@@ -14,19 +14,21 @@ const PostList = ({ canPost }: { canPost: boolean }) => {
     const fetching = useRef(false);
 
     useEffect(() => {
+        setPosts([]);
+        currentPage.current = 1;
+        lastPage.current = 0;
         loadPosts(1);
         document.addEventListener("scroll", onScroll);
         return () => {
             document.removeEventListener("scroll", onScroll);
         }
-    }, []);
+    }, [filter, userId]);
 
     async function onScroll() {
         if (fetching.current) return;
         if (currentPage.current >= lastPage.current) return;
         const scrollY = window.scrollY;
-        const maxScroll =
-            document.documentElement.scrollHeight - window.innerHeight;
+        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
         if (scrollY / maxScroll > 0.7) {
             fetching.current = true;
             const nextPage = currentPage.current + 1;
@@ -37,7 +39,7 @@ const PostList = ({ canPost }: { canPost: boolean }) => {
 
     async function loadPosts(page: number) {
         try {
-            const res = await PostsAPI.getPosts(page);
+            const res = await PostsAPI.getPosts(page, filter, userId);
             currentPage.current = res.data.current_page;
             lastPage.current = res.data.last_page;
             setPosts((prev) => {
@@ -54,14 +56,11 @@ const PostList = ({ canPost }: { canPost: boolean }) => {
 
     return (
         <div>
-            {canPost && <div className="mt-10"><CreatePost /></div>}
+            {canPost && !userId && <div className="mt-10"><CreatePost /></div>}
             <div className="flex flex-col gap-6 py-10">
                 {posts.length == 0 ? <FaSpinner className='animate-spin mx-auto' /> :
                     posts.map((p) => (
                         <PostCard key={p.post.id}
-                            // onUnlike={() => onPostUnlike(p)}
-                            // onLike={(l) => onPostLike(p, l)}
-                            // onComment={(comments) => onPostComment(p, comments)}
                             post={p} />
                     ))}
             </div>

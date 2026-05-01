@@ -21,7 +21,7 @@ function AboutMe({ description, self, onChange }: {
         setEditing(!editing);
     }
 
-    return <div className={"bg-white rounded-md p-6 border"}>
+    return <div className={"bg-white rounded-md p-6 shadow-md"}>
         <div className={"flex justify-between items-center"}>
             <h2 className={"text-2xl font-bold"}>About me</h2>
             {self ? <button onClick={toggle}>

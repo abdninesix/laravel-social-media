@@ -16,8 +16,20 @@ class PostController extends Controller
     }
 
 
-    public function getPosts()
+    public function getPosts(Request $request)
     {
+        $user = Auth::user();
+        $filter = $request->query('filter');
+        $userId = $request->query('user_id');
+
+        if ($filter === 'followed' && $user) {
+            return $this->postService->getFollowedUsersPosts($user->id);
+        }
+
+        if ($userId) {
+            return $this->postService->getPosts($userId);
+        }
+
         return $this->postService->getPosts();
     }
 
@@ -38,9 +50,14 @@ class PostController extends Controller
 
     public function updatePost(CreatePostRequest $request, string $id): Post|JsonResponse
     {
+        $user = Auth::user();
+        if (!$user) {
+            return response()->json(["error" => "Unauthenticated"], 401);
+        }
+        
         $validatedData = $request->validated();
         $caption = $validatedData['caption'];
-        $post = $this->postService->updatePost(userId: '019d908e-c672-7106-bc51-7bbe32a776ff', id: $id, caption: $caption);
+        $post = $this->postService->updatePost(userId: $user->id, id: $id, caption: $caption);
         if ($post == null) {
             return response()->json([
                 "message" => "Post not found"
@@ -51,7 +68,12 @@ class PostController extends Controller
 
     public function deletePost(string $id)
     {
-        if ($this->postService->deletePost(userId: '019d8b7c-bb17-7213-ac7c-bb4e2ce65426', postId: $id)) {
+        $user = Auth::user();
+        if (!$user) {
+            return response()->json(["error" => "Unauthenticated"], 401);
+        }
+        
+        if ($this->postService->deletePost(userId: $user->id, postId: $id)) {
             return response()->noContent(status: 204);
         } else {
             return response()->json([

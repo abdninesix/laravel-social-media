@@ -3,12 +3,51 @@
 namespace App\Services;
 
 use App\Models\Post;
+use App\Models\Follow;
 
 class PostService
 {
-    public function getPosts()
+    public function getPosts(?string $userId = null)
     {
         $posts = Post::with('user')->latest()->paginate(5);
+
+        if ($userId) {
+            $posts = Post::with('user')
+                ->where('user_id', $userId)
+                ->latest()
+                ->paginate(5);
+        }
+
+        $posts->getCollection()->transform(function ($post) {
+            return [
+                'post' => $post,
+                'likes' => $post->likes()->count(),
+                // 'comments' => $post->comments()->count(),
+                'author' => [
+                    'id' => $post->user->id,
+                    'name' => $post->user->name,
+                    'email' => $post->user->email,
+                    'avatar' => $post->user->avatar,
+                ],
+            ];
+        });
+
+        return $posts;
+    }
+
+    public function getFollowedUsersPosts(string $userId)
+    {
+        $followedUserIds = Follow::query()
+            ->where('user_id', $userId)
+            ->pluck('followed_user_id')
+            ->toArray();
+
+        $followedUserIds[] = $userId;
+
+        $posts = Post::with('user')
+            ->whereIn('user_id', $followedUserIds)
+            ->latest()
+            ->paginate(5);
 
         $posts->getCollection()->transform(function ($post) {
             return [

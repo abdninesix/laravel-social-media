@@ -54,37 +54,28 @@ const Profile = () => {
         }
     }
 
-
     return (
         <div className="main-center mt-8">
 
             <div className="relative">
-                <ProfileBanner onChange={()=>{}} self={currentUser?.id.toString() != thisUser?.id} banner={thisUser?.banner} />
-                <ProfileAvatar onChange={()=>{}} self={currentUser?.id.toString() != thisUser?.id} avatar={thisUser?.avatar} />
+                <ProfileBanner onChange={() => { }} self={currentUser?.id.toString() != thisUser?.id} banner={thisUser?.banner} />
+                <ProfileAvatar onChange={() => { }} self={currentUser?.id.toString() != thisUser?.id} avatar={thisUser?.avatar} />
             </div>
             <div
                 className={
-                    "w-full bg-white rounded-b-md border-b p-2 flex flex-col md:flex-row gap-2 justify-between items-center"
+                    "w-full bg-white rounded-b-md shadow-md p-2 flex flex-col md:flex-row gap-2 justify-between items-center"
                 }
             >
-                <div className={"flex items-center gap-2 pl-4"}>
+                <div className={"flex items-center gap-2 ml-42"}>
                     <b className={"text-2xl"}>{thisUser?.name}</b>
                     <p className={"text"}>(@{thisUser?.email})</p>
                 </div>
+                {(currentUser?.id.toString() != thisUser?.id && currentUser) && <Button onClick={handleFollow}>{isFollowing ? "Unfollow" : "Follow"}({followersCount})</Button>}
+            </div>
 
-                {currentUser?.id.toString() != thisUser?.id && currentUser ? <Button onClick={handleFollow}>{isFollowing ? "Unfollow" : "Follow"}</Button> : <button>Settings</button>}
-            </div> 
-
-            <div className={"flex flex-col md:flex-row mt-4 md:mt-24 gap-8"}>
-                <div className={"flex flex-col gap-4 w-full md:w-[19rem]"}>
-                    <AboutMe onChange={()=>{}} self={currentUser?.id.toString() != thisUser?.id} description={currentUser?.description} />
-                </div>
-
-                <div className={"flex-1 mb-4"}>
-                    <h2 className={"text-3xl font-bold mb-4"}>Posts</h2>
-
-                    {/* <PostList canPost={currentUser?.id.toString() != thisUser?.id} user={currentUser?.id} /> */}
-                </div>
+            <div className={"flex flex-col mt-4 md:mt-12"}>
+                {currentUser?.description && <AboutMe onChange={() => { }} self={currentUser?.id.toString() != thisUser?.id} description={currentUser?.description} />}
+                <PostList canPost={false} userId={userId} />
             </div>
         </div>
     )

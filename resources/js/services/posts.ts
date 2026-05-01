@@ -2,8 +2,15 @@ import axiosClient, { csrf } from "../utils/axios";
 
 export const PostsAPI = {
 
-    getPosts: async (page: Number) => {
-        return axiosClient.get(`/api/posts?page=${page}`);
+    getPosts: async (page: number, filter?: 'followed', userId?: string) => {
+        let url = `/api/posts?page=${page}`;
+        if (filter === 'followed') {
+            url += `&filter=followed`;
+        }
+        if (userId) {
+            url += `&user_id=${userId}`;
+        }
+        return axiosClient.get(url);
     },
 
     createPost: async (data: {

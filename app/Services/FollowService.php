@@ -44,7 +44,7 @@ class FollowService
             return false;
         }
 
-        $follow->delete();
+        $follow->delete($toId);
         return true;
     }
 }

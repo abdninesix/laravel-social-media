@@ -27,8 +27,8 @@ Route::prefix("/api")->group(function () {
     Route::prefix("/posts")->group(function () {
         Route::get("/", [PostController::class, "getPosts"]);
         Route::post("/", [PostController::class, "createPost"])->middleware("auth:sanctum");
-        Route::put("/{id}", [PostController::class, "updatePost"]);
-        Route::delete("/{id}", [PostController::class, "deletePost"]);
+        Route::put("/{id}", [PostController::class, "updatePost"])->middleware("auth:sanctum");
+        Route::delete("/{id}", [PostController::class, "deletePost"])->middleware("auth:sanctum");
     });
 
     Route::prefix("/likes")->middleware("auth:sanctum")->group(function () {

@@ -1,5 +1,4 @@
 import React from 'react'
-import { PostsAPI } from '../services/posts';
 import { useAuth } from '../context/AuthContext';
 import PostList from '../components/post/PostList';
 
@@ -11,6 +10,7 @@ const Posts = () => {
         <div className="main-center">
             <PostList
                 canPost={user != null}
+                filter="followed"
             />
         </div>
     )
