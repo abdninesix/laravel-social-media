@@ -15,7 +15,6 @@ class PostService
                 'post' => $post,
                 'likes' => $post->likes()->count(),
                 // 'comments' => $post->comments()->count(),
-                // 'liked' => null,
                 'author' => [
                     'id' => $post->user->id,
                     'name' => $post->user->name,
