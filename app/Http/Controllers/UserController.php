@@ -19,7 +19,14 @@ class UserController extends Controller
         if (!$user) {
             return response('', 404);
         }
-        return response()->json($user);
+        return response()->json([
+            'id' => $user->id,
+            'email' => $user->email,
+            'name' => $user->name,
+            'description' => $user->description,
+            'avatar' => $user->avatar,
+            'followers_count' => $user->followers()->count(),
+        ]);
     }
 
     public function getUserDetails()

@@ -14,8 +14,18 @@ class FollowService
             ->get();
     }
 
-    public function createFollow(string $fromId, string $toId): Follow
+    public function createFollow(string $fromId, string $toId): Follow|null
     {
+        // Check if already following
+        $existing = Follow::query()->where([
+            "user_id" => $fromId, 
+            "followed_user_id" => $toId,
+        ])->first();
+
+        if ($existing) {
+            return null;
+        }
+
         $follow = Follow::create([
             "user_id" => $fromId,
             "followed_user_id" => $toId,
@@ -25,7 +35,7 @@ class FollowService
 
     public function deleteFollow(string $fromId, string $toId): bool
     {
-        $follow = Follow::where([
+        $follow = Follow::query()->where([
             "user_id" => $fromId, 
             "followed_user_id" => $toId,
         ])->first();

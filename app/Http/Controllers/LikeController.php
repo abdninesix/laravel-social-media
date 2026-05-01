@@ -13,7 +13,6 @@ class LikeController extends Controller
     {
     }
 
-
     public function createLike(CreateLikeRequest $req)
     {
         $validated = $req->validated();

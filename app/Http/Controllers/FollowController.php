@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateFollowRequest;
 use App\Services\FollowService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class FollowController extends Controller
 {
@@ -15,14 +16,23 @@ class FollowController extends Controller
 
     public function getFollows()
     {
-        return $this->followService->getFollowsFrom('019d908e-c672-7106-bc51-7bbe32a776ff');
+        $user = Auth::user();
+        if (!$user) {
+            return response()->json(["error" => "Unauthenticated"], 401);
+        }
+        return $this->followService->getFollowsFrom($user->id);
     }
 
     public function createFollow(CreateFollowRequest $req)
     {
+        $user = Auth::user();
+        if (!$user) {
+            return response()->json(["error" => "Unauthenticated"], 401);
+        }
+        
         $validated = $req->validated();
         $follow = $this->followService->createFollow(
-            fromId: '019d908e-c672-7106-bc51-7bbe32a776ff',
+            fromId: $user->id,
             toId: $validated["followed_user_id"]
         );
 
@@ -35,9 +45,14 @@ class FollowController extends Controller
 
     public function deleteFollow(string $id)
     {
+        $user = Auth::user();
+        if (!$user) {
+            return response()->json(["error" => "Unauthenticated"], 401);
+        }
+        
         if (
             $this->followService->deleteFollow(
-                fromId: '019d908e-c672-7106-bc51-7bbe32a776ff',
+                fromId: $user->id,
                 toId: $id
             )
         ) {

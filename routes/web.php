@@ -31,9 +31,9 @@ Route::prefix("/api")->group(function () {
         Route::delete("/{id}", [PostController::class, "deletePost"]);
     });
 
-    Route::prefix("/likes")->group(function () {
-        Route::post("/", [LikeController::class, "createLike"])->middleware("auth:sanctum");
-        Route::delete("/{id}", [LikeController::class, "deleteLike"])->middleware("auth:sanctum");
+    Route::prefix("/likes")->middleware("auth:sanctum")->group(function () {
+        Route::post("/", [LikeController::class, "createLike"]);
+        Route::delete("/{id}", [LikeController::class, "deleteLike"]);
     });
 
     Route::prefix("/comments")->group(function () {
@@ -42,10 +42,10 @@ Route::prefix("/api")->group(function () {
         Route::delete("/{id}", [CommentController::class, "deleteComment"]);
     });
 
-    Route::prefix("/follows")->group(function () {
+    Route::prefix("/follows")->middleware("auth:sanctum")->group(function () {
         Route::get("/", [FollowController::class, "getFollows"]);
         Route::post("/", [FollowController::class, "createFollow"]);
-        Route::put("/{id}", [FollowController::class, "deleteFollow"]);
+        Route::delete("/{id}", [FollowController::class, "deleteFollow"]);
     });
 
     Route::get("/users/{id}", [UserController::class, 'getUserById']);

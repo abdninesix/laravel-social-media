@@ -24,6 +24,7 @@ class User extends Authenticatable
         'password',
         'description',
         'auth_type',
+        'avatar',
     ];
 
     protected $hidden =[
@@ -42,5 +43,15 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             // 'password' => 'hashed',
         ];
+    }
+
+    public function followers()
+    {
+        return $this->hasMany(Follow::class, 'followed_user_id');
+    }
+
+    public function following()
+    {
+        return $this->hasMany(Follow::class, 'user_id');
     }
 }
