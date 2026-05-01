@@ -16,6 +16,12 @@ class LikeService
         return $like;
     }
 
+    public function userLikesPost(string $userId, string $postId): Like|null
+    {
+        $like = Like::query()->where("post_id", $postId)->where("user_id", $userId)->first();
+        return $like;
+    }
+
     public function deleteLike(string $userId, string $likeId): bool
     {
         $like = Like::query()
@@ -27,7 +33,7 @@ class LikeService
             return false;
         }
 
-        $like->delete();
+        $like->delete($likeId);
         return true;
     }
 }

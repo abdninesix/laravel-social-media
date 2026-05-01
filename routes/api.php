@@ -18,10 +18,10 @@ use Illuminate\Support\Facades\Route;
 //     Route::delete("/{id}", [PostController::class, "deletePost"]);
 // });
 
-// Route::prefix("/likes")->group(function () {
-//     Route::post("/", [LikeController::class, "createLike"]);
-//     Route::delete("/{id}", [LikeController::class, "deleteLike"]);
-// });
+Route::prefix("/likes")->group(function () {
+    Route::post("/", [LikeController::class, "createLike"]);
+    Route::delete("/{id}", [LikeController::class, "deleteLike"]);
+});
 
 // Route::prefix("/comments")->group(function () {
 //     Route::post("/", [CommentController::class, "createComment"]);

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Avatar from '../base/Avatar'
 import { useAuth } from '../../context/AuthContext';
 import { PostResponse } from '../../types/post';
@@ -6,13 +6,37 @@ import { Link } from 'react-router-dom';
 import { GoComment } from 'react-icons/go';
 import { GrLike } from 'react-icons/gr';
 import Button from '../base/Button';
+import { LikeAPI } from '../../services/like';
 
 
 const PostCard = ({ post }: { post: PostResponse }) => {
 
     const { user } = useAuth();
+    const [liked, setLiked] = useState<boolean>(post.liked !== null);
+    const [likeCount, setLikeCount] = useState<number>(post.likes);
+    const [likeId, setLikeId] = useState<string | null>(post.liked);
 
     const base_url = import.meta.env.VITE_APP_URL
+
+    const handleLike = async () => {
+        if (!user) return;
+
+        try {
+            if (liked && likeId) {
+                await LikeAPI.deleteLike(likeId);
+                setLiked(false);
+                setLikeCount(prev => prev - 1);
+                setLikeId(null);
+            } else {
+                const response = await LikeAPI.createLike(post.post.id);
+                setLiked(true);
+                setLikeCount(prev => prev + 1);
+                setLikeId(response.data.id);
+            }
+        } catch (error) {
+            console.error("Error handling like:", error);
+        }
+    };
 
     return (
         <div className="bg-white p-4 shadow-md rounded-3xl">
@@ -36,9 +60,9 @@ const PostCard = ({ post }: { post: PostResponse }) => {
                         Comment (20)
                     </Button>
 
-                    <Button onClick={() => alert("Hi")} size="small" bold={false}  >
+                    <Button onClick={handleLike} size="small" bold={false} >
                         <GrLike className="text-white" />
-                        Like (20)
+                        Like ({likeCount})
                     </Button>
                 </div>
             )}

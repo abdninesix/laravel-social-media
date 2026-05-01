@@ -13,7 +13,7 @@ class PostService
         $posts->getCollection()->transform(function ($post) {
             return [
                 'post' => $post,
-                // 'likes' => $post->likes()->count(),
+                'likes' => $post->likes()->count(),
                 // 'comments' => $post->comments()->count(),
                 // 'liked' => null,
                 'author' => [

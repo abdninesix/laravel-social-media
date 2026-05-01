@@ -32,8 +32,8 @@ Route::prefix("/api")->group(function () {
     });
 
     Route::prefix("/likes")->group(function () {
-        Route::post("/", [LikeController::class, "createLike"]);
-        Route::delete("/{id}", [LikeController::class, "deleteLike"]);
+        Route::post("/", [LikeController::class, "createLike"])->middleware("auth:sanctum");
+        Route::delete("/{id}", [LikeController::class, "deleteLike"])->middleware("auth:sanctum");
     });
 
     Route::prefix("/comments")->group(function () {
